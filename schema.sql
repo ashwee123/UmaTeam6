@@ -108,10 +108,10 @@ CREATE TABLE Restaurant (
 CREATE TABLE ShopItem (
     ItemID BIGINT AUTO_INCREMENT PRIMARY KEY,
     ItemName VARCHAR(100),
-    BuyPrice DECIMAL(10,2) CHECK (BuyPrice >= 0),
-    SellPrice DECIMAL(10,2) CHECK (SellPrice >= BuyPrice),
+    BuyPrice DECIMAL(10,2),
+    SellPrice DECIMAL(10,2),
     DiscountPrice DECIMAL(10,2),
-    Quantity INT CHECK (Quantity >= 0),
+    Quantity INT,
     DayBought DATE,
     ShopLocation BIGINT,
     FOREIGN KEY (ShopLocation) REFERENCES Area(AreaID)
