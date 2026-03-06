@@ -67,7 +67,7 @@ CREATE TABLE Ride (
 -- ---------------------------
 -- SHOW SUBTYPE
 -- ---------------------------
-CREATE TABLE ShowAttraction (
+CREATE TABLE Shows (
     ShowID BIGINT PRIMARY KEY,
     ShowTimes VARCHAR(200),
     ShowLocation VARCHAR(100),
@@ -78,7 +78,7 @@ CREATE TABLE ShowAttraction (
 -- ---------------------------
 -- GAME SUBTYPE (ARCADE)
 -- ---------------------------
-CREATE TABLE Game (
+CREATE TABLE Arcade (
     GameID BIGINT PRIMARY KEY,
     PrizeID BIGINT,
     GameBuildingID BIGINT,
@@ -91,7 +91,7 @@ CREATE TABLE Game (
 -- ---------------------------
 -- RESTAURANT (DINING)
 -- ---------------------------
-CREATE TABLE Restaurant (
+CREATE TABLE Dining (
     RestaurantID BIGINT AUTO_INCREMENT PRIMARY KEY,
     RestaurantName VARCHAR(100),
     CuisineType VARCHAR(100),
