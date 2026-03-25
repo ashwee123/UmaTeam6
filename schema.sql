@@ -242,3 +242,96 @@ CREATE TABLE Weather (
     SeverityLevel ENUM('Low','Medium','High'),
     AttractionOperationStatus VARCHAR(100)
 );
+
+-- ---------------------------
+-- NOTIFICATION TABLE
+-- ---------------------------
+CREATE TABLE Notification (
+    NotificationID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    ManagerID BIGINT,
+    Message VARCHAR(255),
+    CreatedAt DATETIME,
+    FOREIGN KEY (ManagerID) REFERENCES Manager(ManagerID)
+);
+
+-- ===========================
+-- TRIGGERS
+-- ===========================
+
+-- Drop triggers if they already exist
+DROP TRIGGER IF EXISTS inventory_low_trigger;
+DROP TRIGGER IF EXISTS weather_severity_trigger;
+
+DELIMITER $$
+
+-- ---------------------------
+-- INVENTORY LOW TRIGGER
+-- ---------------------------
+CREATE TRIGGER inventory_low_trigger
+AFTER UPDATE ON ShopItem
+FOR EACH ROW
+BEGIN
+    DECLARE managerID BIGINT;
+
+    -- Trigger only when quantity drops below threshold (5)
+    IF NEW.Quantity < 5 AND OLD.Quantity >= 5 THEN
+
+        -- Find manager for the shop area
+        SELECT ManagerID INTO managerID
+        FROM Manager
+        WHERE AreaAssigned = NEW.ShopLocation;
+
+        -- Insert notification to manager
+        INSERT INTO Notification (ManagerID, Message, CreatedAt)
+        VALUES (
+            managerID,
+            CONCAT('Low stock alert: ', NEW.ItemName, ' in Area ', NEW.ShopLocation),
+            NOW()
+        );
+
+        -- Optional: also log in RestockLog for record-keeping
+        INSERT INTO RestockLog (ItemID, Quantity, ShopID, AreaID, Cost)
+        VALUES (
+            NEW.ItemID,
+            NEW.Quantity,
+            NEW.ShopLocation,
+            NEW.ShopLocation,
+            0
+        );
+
+    END IF;
+END $$
+
+-- ---------------------------
+-- WEATHER SEVERITY TRIGGER
+-- ---------------------------
+CREATE TRIGGER weather_severity_trigger
+AFTER UPDATE ON Weather
+FOR EACH ROW
+BEGIN
+
+    -- High severity: close all attractions
+    IF NEW.SeverityLevel = 'High' THEN
+        UPDATE Attraction
+        SET Status = 'Closed'
+        WHERE Status != 'Closed';
+
+    -- Medium severity: close only rides, reopen shows/games
+    ELSEIF NEW.SeverityLevel = 'Medium' THEN
+        UPDATE Attraction
+        SET Status = 'Closed'
+        WHERE AttractionType = 'Ride';
+
+        UPDATE Attraction
+        SET Status = 'Open'
+        WHERE AttractionType IN ('Show', 'Game');
+
+    -- Low severity: reopen everything
+    ELSEIF NEW.SeverityLevel = 'Low' THEN
+        UPDATE Attraction
+        SET Status = 'Open';
+    END IF;
+
+END $$
+
+DELIMITER ;
