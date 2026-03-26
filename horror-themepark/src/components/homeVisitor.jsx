@@ -15,8 +15,6 @@ export default function homeVisitor() {
         </p>
 
         <div className="homeVisitor-actions">
-          <button className="btn-primary">EXPLORE ZONES</button>
-          <button className="btn-secondary">VIEW ATTRACTIONS</button>
         </div>
       </div>
     </div>

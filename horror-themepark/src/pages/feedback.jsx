@@ -4,19 +4,23 @@ export default function Feedback() {
   const [rating, setRating] = useState(0);
 
   return (
-    <div>
+    <div className="page-body">
       <div className="section-heading">FEEDBACK</div>
 
       <div className="feedback-form">
         <input className="form-input" placeholder="Your Name" />
 
         <select className="form-select">
-          <option>Select Zone</option>
-          <option>Bloodmoon</option>
+          <option value="">Select Zone</option>
+          <option value="uncanny">Uncanny Valley</option>
+          <option value="bloodmoon">Bloodmoon Village</option>
+          <option value="space">Space Station X</option>
+          <option value="blackwood">Camp Blackwood</option>
+          <option value="deadend">Dead End District</option>
         </select>
 
         <div className="star-rating">
-          {[1,2,3,4,5].map(num => (
+          {[1, 2, 3, 4, 5].map((num) => (
             <button
               key={num}
               className={`star-btn ${rating >= num ? "active" : ""}`}
