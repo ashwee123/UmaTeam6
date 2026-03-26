@@ -1,0 +1,272 @@
+/* ═══════════════════════════════════════════
+   TICKETS PAGE
+═══════════════════════════════════════════ */
+
+.tickets-intro {
+  color: rgba(232, 224, 208, 0.45);
+  font-size: 15px;
+  margin-bottom: 40px;
+  font-style: italic;
+  font-family: 'Crimson Text', serif;
+}
+
+.tickets-row {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* ── Card Base ────────────────────────────── */
+.ticket-card {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid rgba(139, 0, 0, 0.2);
+  background: linear-gradient(180deg, #0e0e18 0%, #08080f 100%);
+  padding: 36px 28px 28px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+}
+
+.ticket-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Subtle top glow line */
+.ticket-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* ── Standard ─────────────────────────────── */
+.ticket-card.standard {
+  border-color: rgba(139, 0, 0, 0.2);
+}
+.ticket-card.standard:hover {
+  border-color: rgba(139, 0, 0, 0.45);
+  box-shadow: 0 16px 48px rgba(139, 0, 0, 0.1);
+}
+.ticket-card.standard::before {
+  background: rgba(139, 0, 0, 0.4);
+}
+
+/* ── All-Zone ─────────────────────────────── */
+.ticket-card.allzone {
+  border-color: rgba(204, 0, 0, 0.5);
+  background: linear-gradient(180deg, #130810 0%, #08080f 100%);
+}
+.ticket-card.allzone:hover {
+  border-color: #cc0000;
+  box-shadow: 0 16px 48px rgba(204, 0, 0, 0.25);
+}
+.ticket-card.allzone::before {
+  background: rgba(204, 0, 0, 0.7);
+}
+
+/* ── VIP ──────────────────────────────────── */
+.ticket-card.vip {
+  border-color: rgba(201, 168, 76, 0.3);
+  background: linear-gradient(180deg, #100e08 0%, #08080f 100%);
+}
+.ticket-card.vip:hover {
+  border-color: rgba(201, 168, 76, 0.65);
+  box-shadow: 0 16px 48px rgba(201, 168, 76, 0.15);
+}
+.ticket-card.vip::before {
+  background: rgba(201, 168, 76, 0.5);
+}
+
+/* ── Badge ────────────────────────────────── */
+.ticket-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px 14px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  border-bottom-left-radius: 8px;
+}
+
+.allzone .ticket-badge {
+  background: #8b0000;
+  color: white;
+}
+
+.vip .ticket-badge {
+  background: rgba(201, 168, 76, 0.12);
+  color: #c9a84c;
+  border-left: 1px solid rgba(201, 168, 76, 0.3);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+/* ── Header ───────────────────────────────── */
+.ticket-header {
+  margin-bottom: 24px;
+}
+
+.ticket-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 2px;
+  color: #e8e0d0;
+  margin-bottom: 4px;
+}
+
+.ticket-tag {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 9px;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.standard .ticket-tag  { color: rgba(232, 224, 208, 0.35); }
+.allzone  .ticket-tag  { color: #cc0000; }
+.vip      .ticket-tag  { color: #c9a84c; }
+
+.ticket-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.standard .ticket-price { color: #e8e0d0; }
+.allzone  .ticket-price { color: #cc0000; text-shadow: 0 0 30px rgba(204, 0, 0, 0.4); }
+.vip      .ticket-price { color: #c9a84c; text-shadow: 0 0 30px rgba(201, 168, 76, 0.35); }
+
+.ticket-price-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(232, 224, 208, 0.3);
+  margin-top: 4px;
+}
+
+/* ── Divider ──────────────────────────────── */
+.ticket-divider {
+  height: 1px;
+  margin: 20px 0;
+}
+
+.standard .ticket-divider { background: rgba(139, 0, 0, 0.15); }
+.allzone  .ticket-divider { background: rgba(204, 0, 0, 0.2); }
+.vip      .ticket-divider { background: rgba(201, 168, 76, 0.15); }
+
+/* ── Description ──────────────────────────── */
+.ticket-desc {
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  color: rgba(232, 224, 208, 0.5);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* ── Features ─────────────────────────────── */
+.ticket-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ticket-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Crimson Text', serif;
+  font-size: 15px;
+  color: rgba(232, 224, 208, 0.75);
+  line-height: 1.4;
+}
+
+.ticket-feature-icon {
+  font-size: 8px;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.standard .ticket-feature-icon { color: rgba(232, 224, 208, 0.3); }
+.allzone  .ticket-feature-icon { color: #cc0000; }
+.vip      .ticket-feature-icon { color: #c9a84c; }
+
+/* ── Spacer + Note ────────────────────────── */
+.ticket-spacer {
+  flex: 1;
+  min-height: 20px;
+}
+
+.ticket-note {
+  font-family: 'Crimson Text', serif;
+  font-size: 12px;
+  color: rgba(232, 224, 208, 0.3);
+  font-style: italic;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* ── Buttons ──────────────────────────────── */
+.ticket-btn {
+  width: 100%;
+  padding: 13px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 3px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  border: 1px solid transparent;
+}
+
+.ticket-btn:active {
+  transform: scale(0.98);
+}
+
+.ticket-btn-standard {
+  background: transparent;
+  border-color: rgba(139, 0, 0, 0.4);
+  color: #e8e0d0;
+}
+.ticket-btn-standard:hover {
+  background: rgba(139, 0, 0, 0.1);
+  border-color: rgba(204, 0, 0, 0.5);
+}
+
+.ticket-btn-allzone {
+  background: #8b0000;
+  border-color: #cc0000;
+  color: white;
+}
+.ticket-btn-allzone:hover {
+  background: #cc0000;
+  box-shadow: 0 0 24px rgba(204, 0, 0, 0.4);
+}
+
+.ticket-btn-vip {
+  background: rgba(201, 168, 76, 0.1);
+  border-color: rgba(201, 168, 76, 0.4);
+  color: #c9a84c;
+}
+.ticket-btn-vip:hover {
+  background: rgba(201, 168, 76, 0.2);
+  box-shadow: 0 0 24px rgba(201, 168, 76, 0.2);
+}
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 900px) {
+  .tickets-row {
+    flex-direction: column;
+    max-width: 420px;
+  }
+}
