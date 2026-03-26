@@ -3,7 +3,7 @@ import Sidebar from "./components/sidebar";
 import Topbar from "./components/topbar";
 
 import Home from "./pages/home";
-import Zones from "./pages/area";
+import Area from "./pages/area";
 
 export default function App() {
   return (
@@ -16,7 +16,7 @@ export default function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/area" element={<Area />} />
+            <Route path="/area" element={<Area />} /> 
           </Routes>
         </div>
       </div>
