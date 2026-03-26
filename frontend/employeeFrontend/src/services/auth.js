@@ -1,7 +1,15 @@
-export function login(email, password) {
-  // Simulated roles
-  if (email.includes("admin")) return { role: "admin" };
-  if (email.includes("manager")) return { role: "manager" };
-  if (email.includes("employee")) return { role: "employee" };
-  return { role: "visitor" };
+// frontend/employeeFrontend/services/auth.js
+export async function loginRequest(username, password) {
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || "Login failed");
+  }
+
+  return res.json();
 }

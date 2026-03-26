@@ -1,38 +1,55 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  /**
-   * Login by calling your REST API.
-   * Expects the API to return a user object like:
-   * { id, name, email, role } where role is one of:
-   * "visitor" | "employee" | "manager" | "admin"
-   *
-   * Replace "/api/login" with your actual endpoint.
-   */
-  const login = async (email, password) => {
+  // Load token from localStorage on mount
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+      fetchUser(savedToken);
+    }
+  }, []);
+
+  const fetchUser = async (jwtToken) => {
+    try {
+      const res = await fetch("/api/auth/me", {
+        headers: { Authorization: `Bearer ${jwtToken}` },
+      });
+      if (!res.ok) throw new Error("Failed to fetch user info");
+      const data = await res.json();
+      setUser({ id: data.id, username: data.username, role: data.role });
+    } catch (err) {
+      console.error(err);
+      logout();
+    }
+  };
+
+  const login = async (username, password) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || "Invalid email or password");
+        throw new Error(data.message || "Invalid credentials");
       }
 
       const data = await res.json();
-      // data should be: { id, name, email, role }
-      setUser(data);
+      setUser({ id: data.id, username: data.username, role: data.role });
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
       return data;
     } catch (err) {
       setError(err.message);
@@ -44,11 +61,12 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     setUser(null);
-    setError(null);
+    setToken(null);
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, error }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading, error }}>
       {children}
     </AuthContext.Provider>
   );
